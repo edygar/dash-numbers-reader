@@ -1,10 +1,10 @@
-function isReadale(input) {
+function isReadable(input) {
   return (input.indexOf('?') === -1);
 }
-exports.isReadale = isReadale;
+exports.isReadable = isReadable;
 
 function isValid(input) {
-  return isReadale(input) && input.split('')
+  return isReadable(input) && input
   .reduce((accumulated, current, index) => {
     return accumulated + parseInt(current, 10) * (input.length - index);
   }, 0) % 11 === 0;

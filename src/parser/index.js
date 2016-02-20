@@ -18,19 +18,27 @@ function tokenize(source) {
 /* Takes a token and parses to its corresponding number */
 function tokenToNumber(token) {
   const number = DICTIONARY.indexOf(token);
-  return number === -1 ? '?' : number;
+  return number === -1 ? '?' : number.toString(10);
 }
 
 /* Takes raw input line, tokenizes and parses to number */
 function parseLine(line) {
-  return tokenize(line).map(tokenToNumber).join('');
+  const tokens = tokenize(line).map(source => ({
+    source,
+    number: tokenToNumber(source)
+  }));
+
+  return {
+    tokens,
+    numbers: tokens.map(token => token.number)
+  };
 }
 
 /* Takes the input and returns a array of the parsed numbers */
 function parse(input) {
   return input
   .match(new RegExp(`(.|\n){${(CHARACTERS_PER_LINE + 1) * 3}}(\n|$)`, 'g'))
-  .map(parseLine);
+  .map( parseLine );
 }
 
 
