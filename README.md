@@ -17,10 +17,7 @@ There might be trailing whitespaces, so all lines have the same size, otherwise,
 
 More than one line of symbols can be supplied at once, but it is required an empty line splitting them.
 
-If a symbols is not recognized, it will test possible valid variations to fit the validation. A `?` places
-a non-recoverable symbol.
-
-### Validation
+### Validation Rule
 A number is valid when respecting the following equation:
 
 ```
@@ -36,16 +33,22 @@ is divisible by 11 then its valid.
 
 In order to validate, it is required that all digits be recognized, otherwise, the input will be invalid.
 
+### Output
+For each line of read symbols, the number is printed, followed by all possible interpolations when not valid or
+by ERR, when there was no possible combination or ILL, when there was at least one symbol not readable.
+
+**Note:** The interpolations are done by one token only, the algorithm tries to discover every possible number
+replacing every applicable token by `_`, `|` or ` `.
 
 ### Pre-requisites
 - [Node (v4.3.1+)](https://nodejs.org/en/download/)
 
 ### Usage
 ```sh
-node src/index.js < input.txt > output.txt
+node index.js < input.txt > output.txt
 ```
 
-There is also a utility helper to draw numbers as expected
+There is also a helper utility to draw numbers as expected
 ```sh
-node src/draw.js 1234567890
+node draw.js 1234567890 0123456789
 ```

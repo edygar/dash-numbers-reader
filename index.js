@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
-const parse = require('./parser').parse;
-const validator = require('./validator');
-const interpolator = require('./interpolator');
+const parse = require('./lib/parser').parse;
+const validator = require('./lib/validator');
+const interpolator = require('./lib/interpolator');
 
 // Reads all the input until its end
 var input = '';
@@ -17,29 +17,27 @@ process.stdin.on('readable', () => {
 process.stdin.on('end', () => {
   parse(input)
   .forEach(parsed => {
-    if (validator.isValid(parsed.numbers)) {
-      console.log(parsed.numbers.join(''));
+    if (validator.isValid(parsed.digits)) {
+      console.log(parsed.digits.join(''));
       return;
     }
 
-    const amb = interpolator.getPossibleValidNumbers(parsed);
+    const amb = interpolator.getPossibleValidDigits(parsed);
     if (amb.length) {
       if (amb.length === 1) {
         console.log(amb[0].join(''));
         return;
       }
 
-      console.log(parsed.numbers.join('') + ' AMB [' + amb.map(number => number.join('')).join(', ') + ']');
+      console.log(parsed.digits.join('') + ' AMB [' + amb.map(number => number.join('')).join(', ') + ']');
       return;
     }
 
     console.log(
-      parsed.numbers.join('') + ' ' +
+      parsed.digits.join('') + ' ' +
       (
-        !validator.isReadable(parsed.numbers) ? 'ILL' : 'ERR'
+        !validator.isReadable(parsed.digits) ? 'ILL' : 'ERR'
       )
     );
   });
 });
-
-

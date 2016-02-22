@@ -20,10 +20,10 @@ describe('ex03', () => {
     describe('Single line parsing', () => {
       it('should read a given input and returns the corresponding numbers', () => {
         var input = draw('490067715');
-        expect(parser.parse(input)[0].numbers).to.deep.equal('490067715'.split(''));
+        expect(parser.parse(input)[0].digits).to.deep.equal('490067715'.split(''));
       });
 
-      it('should place ? at non identified numbers', () => {
+      it('should place ? at non identified digits', () => {
         var input = [
           ' _ __  _  _  _  _  _     _ ',
           '|_ | |  ||  |_ |_||_|   | |',
@@ -31,7 +31,7 @@ describe('ex03', () => {
           ''
         ].join('\n');
 
-        expect(parser.parse(input)[0].numbers).to.deep.equal('??7?6???0'.split(''));
+        expect(parser.parse(input)[0].digits).to.deep.equal('??7?6???0'.split(''));
       });
     });
     describe('Multiple lines parsing', () => {
@@ -39,7 +39,7 @@ describe('ex03', () => {
         var input = fs.readFileSync(__dirname + '/fixtures/parsing/input.txt').toString();
         var output = fs.readFileSync(__dirname + '/fixtures/parsing/output.txt').toString();
 
-        expect(parser.parse(input).map(parsed => parsed.numbers.join('')).join('\n')).to.equal(output);
+        expect(parser.parse(input).map(parsed => parsed.digits.join('')).join('\n')).to.equal(output);
       });
     });
   });
@@ -49,10 +49,10 @@ describe('ex03', () => {
     const invalid = '568288543'.split('');
     const unreadable = '?68288543'.split('');
 
-    it('validates numbers that match the condition', () => {
+    it('validates set of digits that match the condition', () => {
       expect(validator.isValid(valid)).to.equal(true);
     });
-    it('invalidates numbers that dont match condition', () => {
+    it('invalidates set of digits that dont match condition', () => {
       expect(validator.isValid(invalid)).to.equal(false);
     });
 
@@ -61,21 +61,21 @@ describe('ex03', () => {
       expect(validator.isReadable(unreadable)).to.equal(false);
     });
 
-    it('invalidates unreadable numbers', () => {
+    it('invalidates unreadable set of digits', () => {
       expect(validator.isValid(unreadable)).to.equal(false);
     });
   });
   describe('Interpolation', () => {
-    it('generates possible valid numbers from invalid ones', () => {
+    it('generates possible valid digits from invalid ones', () => {
       const input = draw('568288543');
       expect(
-        interpolator.getPossibleValidNumbers(
+        interpolator.getPossibleValidDigits(
           parser.parseLine(input)
         )
       ).to.deep.equal(['588288543'.split(''), '568298543'.split('')]);
     });
 
-    it('finds the closest valid numbers of unreadable characters', () => {
+    it('finds the closest valid digits of unreadable characters', () => {
       const input = [
         '    _  _     _  _  _  _  _ ',
         '  | _| _||_| _ |_   ||_||_|',
@@ -84,10 +84,10 @@ describe('ex03', () => {
       ].join('\n');
 
       expect(
-        interpolator.getPossibleValidNumbers(
+        interpolator.getPossibleValidDigits(
           parser.parseLine(input)
         )
-        .map(numbers => numbers.join('')).sort()
+        .map(digits => digits.join('')).sort()
       ).to.deep.equal(['123436788', '123456789', '723436789']);
     });
   });
