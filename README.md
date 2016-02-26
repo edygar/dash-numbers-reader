@@ -1,4 +1,4 @@
-Number Reading - Ecxus Job Application
+Dash Number Reader
 ===
 This application reads drawed numbers from the [standard input](http://en.wikipedia.org/wiki/Standard_streams)
 and outputs then as numbers, with the avaliation of their readability and validation, and the closest valid matches.
